@@ -28,9 +28,7 @@ import pathlib
 import shutil
 import sys
 
-CAL = pathlib.Path.home() / ".cache/huggingface/lerobot/calibration"
-FOLLOWER_CAL = CAL / "robots/xlerobot/xlerobot.json"
-LEADER_CAL = CAL / "teleoperators/so_leader"
+from calib_paths import FOLLOWER_CAL, LEADER_CAL, ROBOT_DIR, LEADER_DIR  # noqa: F401
 
 SYNC_JOINTS = ["shoulder_pan", "shoulder_lift", "elbow_flex", "wrist_flex", "wrist_roll"]
 SIDES = {
@@ -119,8 +117,8 @@ def main():
         from lerobot.robots.xlerobot import XLerobot, XLerobotConfig
         from lerobot.teleoperators.so_leader import SO101Leader, SO101LeaderConfig
 
-        robot = XLerobot(XLerobotConfig(id="xlerobot", max_relative_target=None))
-        leader = SO101Leader(SO101LeaderConfig(port=cfg["port"], id=cfg["id"], use_degrees=False))
+        robot = XLerobot(XLerobotConfig(id="xlerobot", max_relative_target=None, calibration_dir=ROBOT_DIR))
+        leader = SO101Leader(SO101LeaderConfig(port=cfg["port"], id=cfg["id"], use_degrees=False, calibration_dir=LEADER_DIR))
         bus = getattr(robot, cfg["bus"])
         leader.bus.connect()
         bus.connect()

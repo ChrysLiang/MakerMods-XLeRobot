@@ -1,0 +1,6 @@
+# Calibration backups written by tools/ (one-deep, overwritten each run)
+calibration/**/*.bak
+calibration/**/*.json.bak
+
+__pycache__/
+*.py[cod]

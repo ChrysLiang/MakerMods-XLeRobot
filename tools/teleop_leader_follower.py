@@ -32,6 +32,7 @@ import sys
 import time
 import traceback
 
+from calib_paths import ROBOT_DIR, LEADER_DIR
 from lerobot.motors.feetech import OperatingMode
 from lerobot.robots.xlerobot import XLerobot, XLerobotConfig
 from lerobot.teleoperators.so_leader import SO101Leader, SO101LeaderConfig
@@ -112,9 +113,9 @@ def main():
     # bug in that branch -- it indexes present_pos (keys without ".pos") using goal
     # keys (with ".pos"), raising KeyError. Since it defaults to None upstream, the
     # branch has evidently never been exercised. We clamp in the loop below instead.
-    robot = XLerobot(XLerobotConfig(id="xlerobot", max_relative_target=None))
-    left = SO101Leader(SO101LeaderConfig(port=LEADER_LEFT_PORT, id="leader_left", use_degrees=False))
-    right = SO101Leader(SO101LeaderConfig(port=LEADER_RIGHT_PORT, id="leader_right", use_degrees=False))
+    robot = XLerobot(XLerobotConfig(id="xlerobot", max_relative_target=None, calibration_dir=ROBOT_DIR))
+    left = SO101Leader(SO101LeaderConfig(port=LEADER_LEFT_PORT, id="leader_left", use_degrees=False, calibration_dir=LEADER_DIR))
+    right = SO101Leader(SO101LeaderConfig(port=LEADER_RIGHT_PORT, id="leader_right", use_degrees=False, calibration_dir=LEADER_DIR))
 
     print(f"follower bus1 {robot.bus1.port} / bus2 {robot.bus2.port}")
     print(f"leaders: left {LEADER_LEFT_PORT}, right {LEADER_RIGHT_PORT}")

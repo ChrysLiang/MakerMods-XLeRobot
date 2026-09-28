@@ -9,11 +9,12 @@ Usage:  python calibrate_xlerobot.py
 
 import logging
 
+from calib_paths import ROBOT_DIR
 from lerobot.robots.xlerobot import XLerobot, XLerobotConfig
 
 logging.basicConfig(level=logging.INFO, format="%(levelname)s  %(message)s")
 
-cfg = XLerobotConfig(id="xlerobot")
+cfg = XLerobotConfig(id="xlerobot", calibration_dir=ROBOT_DIR)
 robot = XLerobot(cfg)
 
 print(f"\nbus1 (left arm + head) : {cfg.port1}")

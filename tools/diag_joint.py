@@ -1,7 +1,7 @@
 """Diagnose stuck joints: position vs range, torque, last goal, load, errors."""
 import json, pathlib, serial
 
-CAL = pathlib.Path.home()/".cache/huggingface/lerobot/calibration"
+from calib_paths import CALIBRATION_ROOT as CAL
 foll = json.load(open(CAL/"robots/xlerobot/xlerobot.json"))
 lead = {"L": json.load(open(CAL/"teleoperators/so_leader/leader_left.json")),
         "R": json.load(open(CAL/"teleoperators/so_leader/leader_right.json"))}

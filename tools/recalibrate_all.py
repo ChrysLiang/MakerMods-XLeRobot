@@ -20,6 +20,7 @@ import sys
 import time
 from collections import deque
 
+from calib_paths import ROBOT_DIR
 from lerobot.motors import MotorCalibration
 from lerobot.motors.feetech import OperatingMode
 from lerobot.robots.xlerobot import XLerobot, XLerobotConfig
@@ -110,7 +111,7 @@ def calibrate_bus(bus, joints, label):
 
 
 def main():
-    robot = XLerobot(XLerobotConfig(id="xlerobot"))
+    robot = XLerobot(XLerobotConfig(id="xlerobot", calibration_dir=ROBOT_DIR))
     robot.bus1.connect()
     robot.bus2.connect()
     print(f"bus1 {robot.bus1.port} | bus2 {robot.bus2.port}")

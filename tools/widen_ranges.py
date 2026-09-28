@@ -25,9 +25,7 @@ import sys
 
 import serial
 
-CAL = pathlib.Path.home() / ".cache/huggingface/lerobot/calibration"
-FOLLOWER_CAL = CAL / "robots/xlerobot/xlerobot.json"
-LEADER_CAL = CAL / "teleoperators/so_leader"
+from calib_paths import FOLLOWER_CAL, LEADER_CAL, ROBOT_DIR, LEADER_DIR  # noqa: F401
 
 JOINTS = ["shoulder_pan", "shoulder_lift", "elbow_flex", "wrist_flex", "wrist_roll"]
 SIDES = {

@@ -23,7 +23,7 @@ from collections import deque
 
 import serial
 
-CAL = pathlib.Path.home() / ".cache/huggingface/lerobot/calibration/robots/xlerobot/xlerobot.json"
+from calib_paths import FOLLOWER_CAL as CAL
 
 PORTS = {"bus1": "COM6", "bus2": "COM4"}
 

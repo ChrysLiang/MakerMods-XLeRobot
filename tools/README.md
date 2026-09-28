@@ -160,10 +160,28 @@ python tools/teleop_leader_follower.py
 
 ## Calibration file locations
 
+Calibration lives **in the repo**, not in `~/.cache`, so the robot's measured
+ranges are version-controlled alongside the code that produced them:
+
 ```
-~/.cache/huggingface/lerobot/calibration/robots/xlerobot/xlerobot.json
-~/.cache/huggingface/lerobot/calibration/teleoperators/so_leader/leader_left.json
-~/.cache/huggingface/lerobot/calibration/teleoperators/so_leader/leader_right.json
+calibration/robots/xlerobot/xlerobot.json              17 motors (12 arm + 2 head + 3 wheel)
+calibration/teleoperators/so_leader/leader_left.json    6 motors  (COM5)
+calibration/teleoperators/so_leader/leader_right.json   6 motors  (COM3)
 ```
 
-Scripts that modify these write a `.json.bak` alongside first.
+`tools/calib_paths.py` defines these paths and every tool imports them, so the
+calibration tools and teleop can never drift apart. LeRobot resolves calibration
+as `calibration_dir / f"{id}.json"`, so the scripts simply pass
+`calibration_dir=` on each config.
+
+To fall back to LeRobot's default location, set an environment variable:
+
+```powershell
+$env:XLEROBOT_CALIBRATION = "$HOME\.cache\huggingface\lerobot\calibration"
+```
+
+Scripts that modify these files write a `.json.bak` alongside first — one deep,
+overwritten each time, so copy a file by hand if you want a lasting snapshot.
+
+Note that `~/.cache/.../robots/so_follower/arm_a.json` (if present) belongs to a
+different robot class and is never read by `XLerobot`.
