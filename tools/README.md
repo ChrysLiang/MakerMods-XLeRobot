@@ -3,9 +3,46 @@
 Helper scripts for bringing up the MakerMods XLeRobot: verifying the servo buses,
 calibrating leader/follower arm pairs, and running leader-follower teleoperation.
 
-Requires the `lerobot` conda environment (LeRobot 0.6.1 editable at
-`C:\02_FYP\lerobot`, with XLeRobot's `robots/xlerobot` and `model/SO101Robot.py`
-copied into its source tree).
+## Environment
+
+These scripts need the `lerobot` conda environment — LeRobot 0.6.1, installed
+editable from `C:\02_FYP\lerobot`, with XLeRobot's `robots/xlerobot` and
+`model/SO101Robot.py` copied into its source tree.
+
+**`ModuleNotFoundError: No module named 'lerobot'` means you are on the wrong
+interpreter**, not that anything is broken. The system Python
+(`C:\Python313\python.exe`) does not have LeRobot; only the conda env does.
+
+Either activate the env:
+
+```
+conda activate lerobot
+python tools\check_boards.py
+```
+
+(`conda activate` needs conda's PowerShell hook — if it fails, run
+`conda init powershell` once and reopen the terminal.)
+
+Or call the env's interpreter directly, which needs no activation:
+
+```
+& "C:\Users\liangnanyi\.conda\envs\lerobot\python.exe" tools\check_boards.py
+```
+
+Only four scripts actually import LeRobot and therefore need the env:
+
+    calibrate_xlerobot.py   pair_calibrate.py
+    recalibrate_all.py      teleop_leader_follower.py
+
+The other ten need nothing but `pyserial`:
+
+    check_boards.py  scan_bus.py    health.py       read_regs.py   sweep.py
+    diag_joint.py    safe_off.py    widen_ranges.py fix_ranges.py  sync_ranges.py
+
+`safe_off.py` is deliberately in that group — the emergency stop must work from
+any interpreter, without the env. `sync_ranges.py` imports LeRobot lazily, inside
+a try, only to push the new limits to EEPROM; without the env it still writes the
+calibration files, which is what teleop actually reads.
 
 ## Hardware map
 
